@@ -19,12 +19,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
-      - name: Install dependencies
-        run: yarn install
-
-      - name: Run build
-        run: yarn build
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -35,7 +29,6 @@ jobs:
       - name: Current timestamp
         id: timestamp
         run: echo "::set-output name=date::$(date +'%Y-%m-%dT%H-%M-%S-%3NZ')"
-
 
       - name: Generate deployment package # (1)
         run: zip ./deploy.zip -r * .[^.]*
