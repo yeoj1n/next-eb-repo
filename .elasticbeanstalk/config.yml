@@ -1,10 +1,6 @@
 branch-defaults:
   main:
     environment: testApp-env
-environment-defaults:
-  testApp-env:
-    branch: main
-    repository: next-eb-deploy
 global:
   application_name: test-app
   default_ec2_keyname: null
