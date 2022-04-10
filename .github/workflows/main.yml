@@ -18,6 +18,12 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
+          
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Run build
+        run: yarn build          
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -31,7 +37,12 @@ jobs:
         run: echo "::set-output name=date::$(date +'%Y-%m-%dT%H-%M-%S-%3NZ')"
 
       - name: Generate deployment package # (1)
-        run: zip ./deploy.zip -r * .[^.]*
+        run: mkdir deploy
+          cp package.json deploy/ && mv .next deploy
+          cd deploy
+          zip ./deploy.zip -r * .[^.]*
+          cd ..
+          
           
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v20
